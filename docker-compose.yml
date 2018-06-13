@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  api:
+    build: .
+    volumes:
+      - "./backend:/app"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+
+  client:
+      build: .
+      volumes:
+        - "./client:/app"
+      ports:
+        - "3030:3000"
+      depends_on:
+        - api
+
+  db:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: test
+      MONGO_INITDB_ROOT_PASSWORD: test1234
+      MONGO_INITDB_DATABASE: users
+
+
+
+
