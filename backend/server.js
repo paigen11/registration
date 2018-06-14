@@ -3,7 +3,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import logger from 'morgan';
 import mongoose from 'mongoose';
-import User from './models/users';
+import User from './models/Users';
 
 // and create our instances
 const app = express();
@@ -19,7 +19,8 @@ app.use(logger('dev'));
 
 
 //db config --set URI from mLab
-mongoose.connect("mongodb://test:test1234@db:3306/users");
+// mongoose.connect("mongodb://test:test1234@db:3306/");
+mongoose.connect("mongodb://test:test1234@ds119446.mlab.com:19446/users");
 // const db = mongoose.connection;
 // db.on('error', console.error.bind(console, 'MongoDB connection error'));
 
@@ -32,3 +33,5 @@ router.get('/', (req, res) => {
 app.use('/api', router);
 
 app.listen(API_PORT, () => console.log(`Listening on port ${API_PORT}`));
+
+module.exports=app;

@@ -4,19 +4,14 @@ import { Link } from 'react-router-dom';
 import HeaderBar from './HeaderBar';
 
 class Login extends Component {
-    constructor(){
-        super();
-        this.setState = {
-            pageTitle: "Login Screen"
-        }
-    }
 
+    pageTitle: "Login Screen";
 
     render(){
         return (
             <div className="login-form">
                 <form>
-                    <HeaderBar>{this.setState.pageTitle}</HeaderBar>
+                    <HeaderBar title={this.pageTitle} />
                     <Button waves='light' ><Link to='/'>Go Home</Link></Button>
 
                     <Row>

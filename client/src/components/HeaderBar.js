@@ -1,16 +1,18 @@
-import React, { Component} from 'react';
+import React, { Component } from 'react';
 
 class HeaderBar extends Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
 
-        this.setState = {pageTitle: "No page"}
+        this.state = {
+            page: 'no-header'
+        }
     }
 
     render(){
         return (
             <div className="header-bar">
-                {this.setState.pageTitle}
+                {this.props.pageTitle}
             </div>
         )
     }
