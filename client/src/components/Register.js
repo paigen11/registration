@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 import HeaderBar from './HeaderBar';
 import axios from 'axios';
 
-const pageTitle = 'Register Screen';
-const querystring = require('querystring');
-
+const page =  {
+    pageTitle: 'Register Screen'
+};
 
 class Register extends Component {
     constructor() {
@@ -19,26 +19,37 @@ class Register extends Component {
             email: '',
             phone_number: '',
             username: '',
-            password: ''
+            password: '',
+            messageFromServer: ''
         }
     }
 
+    onChange = (e) => {
+        this.setState({ [e.target.name]: e.target.value });
+    };
+
     registerUser = (e) => {
-        axios.post('/registerUser',
-            querystring.stringify({
-                salutation: e.state.salutation,
-                first_name: e.state.first_name,
-                last_name: e.state.last_name,
-                email: e.state.email,
-                phone_number: e.state.phone_number,
-                username: e.state.username,
-                password: e.state.password
-            }), {
+        e.preventDefault();
+        // const { salutation, first_name, last_name, email, phone_number, username, password } = this.state;
+        console.log(this.state);
+
+        // find a better way to pass data through from ui to server
+        axios.post('http://localhost:3000/api/registerUser',
+            {
+                salutation: this.state.salutation,
+                first_name: this.state.first_name,
+                last_name: this.state.last_name,
+                email: this.state.email,
+                phone_number: this.state.phone_number,
+                username: this.state.username,
+                password: this.state.password
+            }, {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
                 }
-            }).then(function(response) {
-                e.setState({
+            }).then((response) => {
+                console.log(response.data);
+                this.setState({
                     messageFromServer: response.data
                 });
         });
@@ -48,25 +59,28 @@ class Register extends Component {
         if(this.state.messageFromServer === ''){
             return (
                 <div className="registration-form">
-                    <HeaderBar title={pageTitle} />
+                    <HeaderBar title={page} />
                     <Button waves='light' ><Link to='/'>Go Home</Link></Button>
-                    <form>
-                        <Row>
-                            <Input placeholder="Ms." name="saulutation" label="Salutation" type="text"/>
-                            <Input placeholder="Paige" name="first_name" label="First Name" type="text" />
-                            <Input placeholder="Niedringhaus" name="last_name" label="Last Name" type="text"/>
-                            <Input placeholder="paige@gmail.com" name="email" label="Email" type="email"/>
-                            <Input placeholder="123-456-7890" name="phone_number" label="Phone Number" type="tel" />
-                            <Input placeholder="paigen11" name="username" label="Username" type="text" />
-                            <Input placeholder="*****" name="password" label="Password" type="password"/>
-                        </Row>
-                        <Button onClick={this.registerUser}>Register</Button>
-                    </form>
+                        <form onSubmit={this.registerUser}>
+                            <Row>
+                                <Input placeholder="Ms." name="salutation" label="Salutation" type="text"  onChange={this.onChange} />
+                                <Input placeholder="Paige" name="first_name" label="First Name" type="text"  onChange={this.onChange} />
+                                <Input placeholder="Niedringhaus" name="last_name" label="Last Name" type="text"  onChange={this.onChange} />
+                                {/*<Input placeholder="paige@gmail.com" name="email" label="Email" type="email" onChange={this.onChange} />*/}
+                                {/*<Input placeholder="123-456-7890" name="phone_number" label="Phone Number" type="tel" onChange={this.onChange} />*/}
+                                {/*<Input placeholder="paigen11" name="username" label="Username" type="text" onChange={this.onChange} />*/}
+                                {/*<Input placeholder="*****" name="password" label="Password" type="password" onChange={this.onChange} />*/}
+                            </Row>
+                            <Button type='submit'>Register</Button>
+                        </form>
                 </div>
             )
         } else {
             return (
-                <h3>{this.state.messageFromServer}</h3>
+                <div>
+                    <h3>{this.state.messageFromServer}</h3>
+                    <Button waves='light' ><Link to='/'>Go Home</Link></Button>
+                </div>
             )
         }
     }

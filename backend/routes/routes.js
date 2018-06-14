@@ -9,6 +9,7 @@ router.get('/', function(req, res){
 
 router.route('/registerUser')
     .post(function(req, res){
+        console.log(req.body);
        var user = new User();
        user.salutation = req.body.salutation;
        user.first_name = req.body.first_name;
@@ -17,17 +18,20 @@ router.route('/registerUser')
        user.email = req.body.email;
        user.username = req.body.username;
        user.password = req.body.password;
+       console.log(user);
 
-       user.save(function(err) {
-           if (err)
-               res.send(err);
-           res.send('User successfully added!');
-       })
+       user.save()
+           .then(router => {
+               res.json('User successfully added!');
+           })
+           .catch(err => {
+             res.status (400).send('unable to save to db');
+           })
     });
 
 router.route('/updateUser')
-    .port(function(req, res) {
-       const updatedUserInfo = {
+    .post(function(req, res) {
+       var updatedUserInfo = {
            salutation: req.body.salutation,
            first_name: req.body.first_name,
            last_name: req.body.last_name,

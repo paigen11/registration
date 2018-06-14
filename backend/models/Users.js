@@ -5,10 +5,10 @@ const UsersSchema = new Schema({
     salutation: String,
     first_name: String,
     last_name: String,
-    phone_number: String,
+    phone_number: Number,
     email: String,
     username: String,
     password: String
 });
 
-export default mongoose.model('User', UsersSchema);
+module.exports =  mongoose.model('User', UsersSchema);
