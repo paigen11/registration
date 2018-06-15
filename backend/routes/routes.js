@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const bodyParser = require('body-parser');
 const User = require('../models/Users');
 
 router.get('/', function(req, res){
@@ -67,6 +66,7 @@ router.get('/findUser',function(req, res){
         function(err, user) {
             if (err)
                 res.send(err);
+            console.log(user);
             res.json(user);
             loggedIn = true;
         }})
