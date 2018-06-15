@@ -17,7 +17,7 @@ router.route('/registerUser')
        user.email = req.body.email;
        user.username = req.body.username;
        user.password = req.body.password;
-       console.log(user);
+       console.log(`User: ${user}`);
 
        user.save()
            .then(router => {
@@ -56,21 +56,38 @@ router.get('/deleteUser', function(req, res){
    })
 });
 
-router.get('/findUser',function(req, res){
+router.get('/loginUser',function(req, res){
     var username = req.query.username;
     var password = req.query.password;
 
+    console.log(username);
+    console.log(password);
+
     if((username !== null || username !== '') &&
         (password !== null || password !== '')){
-        User.findOne({$and: [{username: username}, {password: password}],
-        function(err, user) {
-            if (err)
-                res.send(err);
-            console.log(user);
-            res.json(user);
-            loggedIn = true;
-        }})
-    }
+        User.findOne({ username: username }, function(err, users) {
+            if (err) {
+                console.log('error querying db');
+                return res.send(err);
+            }
+
+            if(users === null){
+                console.log('user not found');
+                res.send('no user with that name');
+            } else {
+                console.log(`User found ${users}`);
+                if(password === users.password){
+                    console.log('password matches');
+                    return res.send(users);
+                } else {
+                    console.log('password does not match');
+                    return res.send('bad password');
+                }
+
+            }
+
+            });
+        }
 });
 
 module.exports = router;

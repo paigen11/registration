@@ -30,8 +30,6 @@ class Register extends Component {
 
     registerUser = (e) => {
         e.preventDefault();
-        // const { salutation, first_name, last_name, email, phone_number, username, password } = this.state;
-        console.log(this.state);
 
         // find a better way to pass data through from ui to server
         axios.post('http://localhost:3000/api/registerUser',
@@ -43,10 +41,6 @@ class Register extends Component {
                 phone_number: this.state.phone_number,
                 username: this.state.username,
                 password: this.state.password
-            }, {
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-                }
             }).then((response) => {
                 console.log(response.data);
                 this.setState({
@@ -66,10 +60,10 @@ class Register extends Component {
                                 <Input placeholder="Ms." name="salutation" label="Salutation" type="text"  onChange={this.onChange} />
                                 <Input placeholder="Paige" name="first_name" label="First Name" type="text"  onChange={this.onChange} />
                                 <Input placeholder="Niedringhaus" name="last_name" label="Last Name" type="text"  onChange={this.onChange} />
-                                {/*<Input placeholder="paige@gmail.com" name="email" label="Email" type="email" onChange={this.onChange} />*/}
-                                {/*<Input placeholder="123-456-7890" name="phone_number" label="Phone Number" type="tel" onChange={this.onChange} />*/}
-                                {/*<Input placeholder="paigen11" name="username" label="Username" type="text" onChange={this.onChange} />*/}
-                                {/*<Input placeholder="*****" name="password" label="Password" type="password" onChange={this.onChange} />*/}
+                                <Input placeholder="paige@gmail.com" name="email" label="Email" type="email" onChange={this.onChange} />
+                                <Input placeholder="123-456-7890" name="phone_number" label="Phone Number" type="tel" onChange={this.onChange} />
+                                <Input placeholder="paigen11" name="username" label="Username" type="text" onChange={this.onChange} />
+                                <Input placeholder="*****" name="password" label="Password" type="password" onChange={this.onChange} />
                             </Row>
                             <Button type='submit'>Register</Button>
                         </form>
