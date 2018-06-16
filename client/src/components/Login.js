@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
-import { Input, Row, Button } from 'react-materialize';
+import { FormControl, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import HeaderBar from './HeaderBar';
+import ErrorModal from './ErrorModal';
 import axios from 'axios';
 
 const page = {
     pageTitle:'Login Screen'
+};
+
+var loginError = {
+    errorHeader: 'Login Error',
+    errorBody: ''
 };
 
 class Login extends Component {
@@ -14,7 +20,10 @@ class Login extends Component {
 
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            errorFromServer: '',
+            show: false,
+            loggedIn: ''
         }
     }
 
@@ -24,7 +33,7 @@ class Login extends Component {
 
     loginUser = (e) => {
       e.preventDefault();
-      console.log(this.state);
+      // console.log(this.state);
 
       axios.get('http://localhost:3000/api/loginUser', {
         params: {
@@ -33,24 +42,45 @@ class Login extends Component {
         }
       })
           .then((response) => {
-              console.log(response.data)
+              console.log(response.data);
+              if(response.data === 'No user with that name'
+                  || response.data === 'Bad password') {
+                  loginError.errorBody = response.data;
+                  this.setState({
+                      show: true,
+                  });
+                  // console.log(loginError);
+              } else {
+                  this.setState({
+                      loggedIn: 'yes',
+                      user: response.data
+                  })
+              }
           })
     };
 
     render(){
-        return (
-            <div className="login-form">
-                <form onSubmit={this.loginUser}>
-                    <HeaderBar title={page} />
-                    <Button waves='light' ><Link to='/'>Go Home</Link></Button>
-                    <Row>
-                        <Input placeholder="paigen11" label="Username" name="username" onChange={this.onChange} />
-                        <Input placeholder="******" label="Password" name="password" onChange={this.onChange} />
-                    </Row>
-                    <Button type="submit" waves='light'>Login</Button>
-                </form>
-            </div>
-        )
+        if(this.state.loggedIn === '') {
+            return (
+                <div className="login-form">
+                    <Button><Link to='/'>Go Home</Link></Button>
+                    <form onSubmit={this.loginUser}>
+                        <HeaderBar title={page}/>
+                        <FormControl placeholder="paigen11" label="Username" name="username" onChange={this.onChange}/>
+                        <FormControl placeholder="******" label="Password" name="password" onChange={this.onChange}/>
+                        <Button type="submit" bsStyle="primary">Login</Button>
+                    </form>
+                    <ErrorModal show={this.state.show} error={loginError}/>
+                </div>
+            )
+        } else {
+            return (
+                <div className='welcome'>
+                    <p>Welcome back {this.state.user.username}</p>
+                    <Button><Link to='/'>Go Home</Link></Button>
+                </div>
+            )
+        }
     }
 }
 

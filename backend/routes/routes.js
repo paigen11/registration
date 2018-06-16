@@ -6,28 +6,6 @@ router.get('/', function(req, res){
     res.render('index')
 });
 
-router.route('/registerUser')
-    .post(function(req, res){
-        console.log(req.body);
-       var user = new User();
-       user.salutation = req.body.salutation;
-       user.first_name = req.body.first_name;
-       user.last_name = req.body.last_name;
-       user.phone_number = req.body.phone_number;
-       user.email = req.body.email;
-       user.username = req.body.username;
-       user.password = req.body.password;
-       console.log(`User: ${user}`);
-
-       user.save()
-           .then(router => {
-               res.json('User successfully added!');
-           })
-           .catch(err => {
-             res.status (400).send('unable to save to db');
-           })
-    });
-
 router.route('/updateUser')
     .post(function(req, res) {
        var updatedUserInfo = {
@@ -56,38 +34,38 @@ router.get('/deleteUser', function(req, res){
    })
 });
 
-router.get('/loginUser',function(req, res){
-    var username = req.query.username;
-    var password = req.query.password;
-
-    console.log(username);
-    console.log(password);
-
-    if((username !== null || username !== '') &&
-        (password !== null || password !== '')){
-        User.findOne({ username: username }, function(err, users) {
-            if (err) {
-                console.log('error querying db');
-                return res.send(err);
-            }
-
-            if(users === null){
-                console.log('user not found');
-                res.send('no user with that name');
-            } else {
-                console.log(`User found ${users}`);
-                if(password === users.password){
-                    console.log('password matches');
-                    return res.send(users);
-                } else {
-                    console.log('password does not match');
-                    return res.send('bad password');
-                }
-
-            }
-
-            });
-        }
-});
+// router.get('/loginUser',function(req, res){
+//     var username = req.query.username;
+//     var password = req.query.password;
+//
+//     console.log(username);
+//     console.log(password);
+//
+//     if((username !== null || username !== '') &&
+//         (password !== null || password !== '')){
+//         User.findOne({ username: username }, function(err, users) {
+//             if (err) {
+//                 console.log('error querying db');
+//                 return res.send(err);
+//             }
+//
+//             if(users === null){
+//                 console.log('user not found');
+//                 res.send('no user with that name');
+//             } else {
+//                 console.log(`User found ${users}`);
+//                 if(password === users.password){
+//                     console.log('password matches');
+//                     return res.send(users);
+//                 } else {
+//                     console.log('password does not match');
+//                     return res.send('bad password');
+//                 }
+//
+//             }
+//
+//             });
+//         }
+// });
 
 module.exports = router;

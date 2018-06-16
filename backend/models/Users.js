@@ -18,7 +18,6 @@ UsersSchema.methods.comparePassword = (newPassword) => {
         else {
         return null;
     }
-
-}
+};
 
 module.exports =  mongoose.model('User', UsersSchema);

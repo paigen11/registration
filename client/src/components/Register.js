@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Row, Input, Button} from 'react-materialize';
+import {FormControl, Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import HeaderBar from './HeaderBar';
 import axios from 'axios';
@@ -54,18 +54,16 @@ class Register extends Component {
             return (
                 <div className="registration-form">
                     <HeaderBar title={page} />
-                    <Button waves='light' ><Link to='/'>Go Home</Link></Button>
+                    <Button><Link to='/'>Go Home</Link></Button>
                         <form onSubmit={this.registerUser}>
-                            <Row>
-                                <Input placeholder="Ms." name="salutation" label="Salutation" type="text"  onChange={this.onChange} />
-                                <Input placeholder="Paige" name="first_name" label="First Name" type="text"  onChange={this.onChange} />
-                                <Input placeholder="Niedringhaus" name="last_name" label="Last Name" type="text"  onChange={this.onChange} />
-                                <Input placeholder="paige@gmail.com" name="email" label="Email" type="email" onChange={this.onChange} />
-                                <Input placeholder="123-456-7890" name="phone_number" label="Phone Number" type="tel" onChange={this.onChange} />
-                                <Input placeholder="paigen11" name="username" label="Username" type="text" onChange={this.onChange} />
-                                <Input placeholder="*****" name="password" label="Password" type="password" onChange={this.onChange} />
-                            </Row>
-                            <Button type='submit'>Register</Button>
+                                <FormControl placeholder="Ms." name="salutation" label="Salutation" type="text"  onChange={this.onChange} />
+                                <FormControl placeholder="Paige" name="first_name" label="First Name" type="text"  onChange={this.onChange} />
+                                <FormControl placeholder="Niedringhaus" name="last_name" label="Last Name" type="text"  onChange={this.onChange} />
+                                <FormControl placeholder="paige@gmail.com" name="email" label="Email" type="email" onChange={this.onChange} />
+                                <FormControl placeholder="123-456-7890" name="phone_number" label="Phone Number" type="tel" onChange={this.onChange} />
+                                <FormControl placeholder="paigen11" name="username" label="Username" type="text" onChange={this.onChange} />
+                                <FormControl placeholder="*****" name="password" label="Password" type="password" onChange={this.onChange} />
+                            <Button type='submit' bsStyle="primary">Register</Button>
                         </form>
                 </div>
             )
@@ -73,7 +71,7 @@ class Register extends Component {
             return (
                 <div>
                     <h3>{this.state.messageFromServer}</h3>
-                    <Button waves='light' ><Link to='/'>Go Home</Link></Button>
+                    <Button><Link to='/'>Go Home</Link></Button>
                 </div>
             )
         }
