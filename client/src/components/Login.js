@@ -77,7 +77,7 @@ class Login extends Component {
             return (
                 <div className='welcome'>
                     <p>Welcome back {this.state.user.username}</p>
-                    <Button><Link to='/'>Go Home</Link></Button>
+                    <Button><Link to='/profile'>Go To Profile</Link></Button>
                 </div>
             )
         }

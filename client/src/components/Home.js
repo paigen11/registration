@@ -13,8 +13,8 @@ class Home extends Component {
         return (
             <div>
                 <HeaderBar title={page} />
-                <Button waves='light' ><Link to='/login'>Login</Link></Button>
-                <Button waves='light'><Link to='/register'>Register</Link></Button>
+                <Button><Link to='/login'>Login</Link></Button>
+                <Button><Link to='/register'>Register</Link></Button>
             </div>
         )
     }
