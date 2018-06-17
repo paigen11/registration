@@ -4,7 +4,7 @@ const User = require('../models/Users');
 
 registerRouter.route('/registerUser')
     .post(function(req, res){
-        console.log(req.body);
+        // console.log(req.body);
         var user = new User();
         user.salutation = req.body.salutation;
         user.first_name = req.body.first_name;
