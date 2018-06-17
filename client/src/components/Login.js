@@ -3,13 +3,16 @@ import { FormControl, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import HeaderBar from './HeaderBar';
 import ErrorModal from './ErrorModal';
+import Profile from './Profile';
 import axios from 'axios';
 
 const page = {
     pageTitle:'Login Screen'
 };
 
-var loginError = {
+let username = null;
+
+let loginError = {
     errorHeader: 'Login Error',
     errorBody: ''
 };
@@ -51,6 +54,7 @@ class Login extends Component {
                   });
                   // console.log(loginError);
               } else {
+                  username = response.data.username;
                   this.setState({
                       loggedIn: 'yes',
                       user: response.data
@@ -77,7 +81,8 @@ class Login extends Component {
             return (
                 <div className='welcome'>
                     <p>Welcome back {this.state.user.username}</p>
-                    <Button><Link to='/profile'>Go To Profile</Link></Button>
+                    <Button><Link to={`/profile?user=${username}`}>Go To Profile</Link></Button>
+                    <Profile user={this.state.user} />
                 </div>
             )
         }

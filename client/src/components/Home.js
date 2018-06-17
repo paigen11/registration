@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button } from 'react-materialize';
+import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import HeaderBar from './HeaderBar';
 

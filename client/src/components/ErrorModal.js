@@ -8,7 +8,6 @@ class ErrorModal extends Component {
         }
 
         return (
-
             <Modal
                 className='error-modal'>
                 <Modal.Dialog>
