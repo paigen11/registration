@@ -32,7 +32,7 @@ class Register extends Component {
         e.preventDefault();
 
         // find a better way to pass data through from ui to server
-        axios.post('http://localhost:3000/api/registerUser',
+        axios.post('http://localhost:3000/registerUser',
             {
                 salutation: this.state.salutation,
                 first_name: this.state.first_name,
@@ -42,7 +42,6 @@ class Register extends Component {
                 username: this.state.username,
                 password: this.state.password
             }).then((response) => {
-                console.log(response.data);
                 this.setState({
                     messageFromServer: response.data
                 });

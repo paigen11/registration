@@ -7,6 +7,7 @@ import mongoose from 'mongoose';
 import router from './routes/routes';
 import registerRouter from './routes/registerUserRoute';
 import loginRouter from './routes/loginUserRoute';
+import userInfoRouter from './routes/getUserInfoRoute';
 
 // and create our instances
 const app = express();
@@ -35,9 +36,11 @@ router.get('/api', (req, res) => {
 });
 
 // Use our routers configuration when we call /api
-app.use('/api', router);
-app.use('/api', loginRouter);
-app.use('/api', registerRouter);
+app.use('/', router);
+app.use('/', loginRouter);
+app.use('/', registerRouter);
+app.use('/', userInfoRouter);
+
 
 app.listen(API_PORT, () => console.log(`Listening on port ${API_PORT}`));
 
