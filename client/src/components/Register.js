@@ -49,7 +49,8 @@ class Register extends Component {
     };
 
     render(){
-        if(this.state.messageFromServer === ''){
+        const serverMessage = this.state.messageFromServer;
+        if(serverMessage === '' || serverMessage === 'Username already taken. Please try another one.'){
             return (
                 <div className="registration-form">
                     <HeaderBar title={page} />
@@ -64,6 +65,7 @@ class Register extends Component {
                                 <FormControl placeholder="*****" name="password" label="Password" type="password" onChange={this.onChange} />
                             <Button type='submit' bsStyle="primary">Register</Button>
                         </form>
+                    <div>{serverMessage}</div>
                 </div>
             )
         } else {
