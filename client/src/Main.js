@@ -4,6 +4,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/Home';
 import Profile from './components/Profile';
+import UpdateUser from './components/UpdateUser';
 
 class Main extends Component {
     render(){
@@ -14,6 +15,7 @@ class Main extends Component {
                     <Route exact path='/login' component={Login} />
                     <Route exact path='/register' component={Register} />
                     <Route path='/userProfile/:username' component={Profile} />
+                    <Route path='/updateUser/:username' component={UpdateUser} />
                 </Switch>
             </main>
         )

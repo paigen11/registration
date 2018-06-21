@@ -4,6 +4,8 @@ import { Table, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ErrorModal from './ErrorModal';
 import axios from 'axios';
+import './Profile.css';
+
 
 const page = {
     pageTitle: "Profile Screen"
@@ -94,12 +96,12 @@ class Profile extends Component {
                         </tr>
                         <tr>
                             <td>Password:</td>
-                            <td>{this.state.user.password}</td>
+                            <td className='password'>{this.state.user.password}</td>
 
                         </tr>
                         </tbody>
                     </Table>
-                    <Button bsStyle="primary"><Link to='/updateProfile'>Update</Link></Button>
+                    <Button bsStyle="primary"><Link to={`/updateUser/${this.state.user.username}`}>Update</Link></Button>
                     {/*<Button type='submit' bsStyle="primary">Delete User</Button>*/}
                 </div>
             )

@@ -18,7 +18,7 @@ router.route('/updateUser')
            password: req.body.password
        };
        console.log(updatedUserInfo);
-       User.update({_id: req.body._id}, updatedUserInfo, function(err, result){
+       User.update({username: req.body.username}, updatedUserInfo, function(err, result){
            if (err)
                res.send(err);
            res.send('User successfully updated!');
@@ -33,39 +33,5 @@ router.get('/deleteUser', function(req, res){
        res.send('User successfully deleted');
    })
 });
-
-// router.get('/loginUser',function(req, res){
-//     var username = req.query.username;
-//     var password = req.query.password;
-//
-//     console.log(username);
-//     console.log(password);
-//
-//     if((username !== null || username !== '') &&
-//         (password !== null || password !== '')){
-//         User.findOne({ username: username }, function(err, users) {
-//             if (err) {
-//                 console.log('error querying db');
-//                 return res.send(err);
-//             }
-//
-//             if(users === null){
-//                 console.log('user not found');
-//                 res.send('no user with that name');
-//             } else {
-//                 console.log(`User found ${users}`);
-//                 if(password === users.password){
-//                     console.log('password matches');
-//                     return res.send(users);
-//                 } else {
-//                     console.log('password does not match');
-//                     return res.send('bad password');
-//                 }
-//
-//             }
-//
-//             });
-//         }
-// });
 
 module.exports = router;
