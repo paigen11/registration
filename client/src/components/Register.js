@@ -8,9 +8,23 @@ const page =  {
     pageTitle: 'Register Screen'
 };
 
+function ShowLogin(props) {
+    if(!props.login){
+        return null;
+    }
+
+    console.log(props);
+    return(
+        <div className='loginInfo'>
+            <div>{props.loginMessage}</div>
+            <Button><Link to='/login'>Go to Login</Link></Button>
+        </div>
+    )
+};
+
 class Register extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             salutation: '',
@@ -20,7 +34,8 @@ class Register extends Component {
             phone_number: '',
             username: '',
             password: '',
-            messageFromServer: ''
+            messageFromServer: '',
+            showLogin: false
         }
     }
 
@@ -42,15 +57,23 @@ class Register extends Component {
                 username: this.state.username,
                 password: this.state.password
             }).then((response) => {
-                this.setState({
-                    messageFromServer: response.data
-                });
+                if(response.data === 'Username already taken. Please try another one or login now.'){
+                    this.setState({
+                        showLogin: true,
+                        messageFromServer: response.data
+                    });
+                    console.log(this.state.showLogin);
+                } else {
+                    this.setState({
+                        messageFromServer: response.data
+                    });
+                }
         });
     };
 
     render(){
         const serverMessage = this.state.messageFromServer;
-        if(serverMessage === '' || serverMessage === 'Username already taken. Please try another one.'){
+        if(serverMessage === '' || serverMessage === 'Username already taken. Please try another one or login now.'){
             return (
                 <div className="registration-form">
                     <HeaderBar title={page} />
@@ -65,7 +88,7 @@ class Register extends Component {
                                 <FormControl placeholder="*****" name="password" label="Password" type="password" onChange={this.onChange} />
                             <Button type='submit' bsStyle="primary">Register</Button>
                         </form>
-                    <div>{serverMessage}</div>
+                    <ShowLogin login={this.state.showLogin} loginMessage={this.state.messageFromServer}/>
                 </div>
             )
         } else {

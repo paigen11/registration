@@ -6,7 +6,7 @@ registerRouter.route('/registerUser')
         .post(function(req, res) {
             User.find({username: req.body.username}, function (err, user) {
                 if (user.length !== 0) {
-                    res.json('Username already taken. Please try another one.');
+                    res.json('Username already taken. Please try another one or login now.');
                 } else {
                     // console.log(req.body);
                     var newUser = new User();
