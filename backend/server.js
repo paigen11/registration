@@ -8,6 +8,7 @@ import router from './routes/routes';
 import registerRouter from './routes/registerUserRoute';
 import loginRouter from './routes/loginUserRoute';
 import userInfoRouter from './routes/getUserInfoRoute';
+import updateUserRouter from './routes/updateUserRoute';
 
 // and create our instances
 const app = express();
@@ -40,6 +41,7 @@ app.use('/', router);
 app.use('/', loginRouter);
 app.use('/', registerRouter);
 app.use('/', userInfoRouter);
+app.use('/', updateUserRouter);
 
 
 app.listen(API_PORT, () => console.log(`Listening on port ${API_PORT}`));

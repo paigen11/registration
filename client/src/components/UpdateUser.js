@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import HeaderBar from './HeaderBar';
 import { FormControl, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const page = {
@@ -19,12 +20,14 @@ class UpdateUser extends Component {
                 phone_number: '',
                 username: '',
                 password: '',
-            isLoading: false
+            isLoading: false,
+            messageFromServer: ''
         }
     }
 
     componentDidMount() {
         this.setState({ isLoading: true });
+        console.log('loading data');
 
         axios.get('http://localhost:3000/getUserInfo', {
             params: {
@@ -40,6 +43,9 @@ class UpdateUser extends Component {
             } else {
                 this.setState({
                     salutation: response.data[0].salutation,
+                    first_name: response.data[0].first_name,
+                    last_name: response.data[0].last_name,
+                    email: response.data[0].email,
                     username: response.data[0].username,
                     password: response.data[0].password,
                     isLoading: false
@@ -50,10 +56,7 @@ class UpdateUser extends Component {
     }
 
     onChange = (e) => {
-        console.log(e.target.name);
-        console.log(e.target.value);
         this.setState({ [e.target.name]: e.target.value });
-        console.log(this.state.value);
     };
 
     updateUser = (e) => {
@@ -69,25 +72,18 @@ class UpdateUser extends Component {
                 username: this.state.username,
                 password: this.state.password
             }).then((response) => {
-            if(response.data === 'Username already taken. Please try another one or login now.'){
-                this.setState({
-                    showLogin: true,
-                    messageFromServer: response.data
-                });
-                console.log(this.state.showLogin);
-            } else {
                 this.setState({
                     messageFromServer: response.data
                 });
-            }
-        });
-    };
+                console.log(this.state.messageFromServer);
+            });
+        };
 
 
     render() {
         if (this.state.isLoading) {
             return <p>Loading user profile...</p>
-        } else if (this.state.isLoading === false) {
+        } else if (this.state.isLoading === false && this.state.messageFromServer === '') {
             return (
                 <div className='update-user'>
                     <HeaderBar title={page}/>
@@ -110,8 +106,15 @@ class UpdateUser extends Component {
                     </form>
                 </div>
             )
-        }
-    }
+        } else if (this.state.messageFromServer !== '') {
+            return (
+                <div>
+                    <h3>{this.state.messageFromServer}</h3>
+                    <Button><Link to={`/userProfile/${this.state.username}`}>Back to User Profile</Link></Button>
+                </div>
+                    )
+                }
+            }
 }
 
 export default UpdateUser;
