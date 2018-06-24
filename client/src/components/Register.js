@@ -46,14 +46,12 @@ class Register extends Component {
     registerUser = (e) => {
         e.preventDefault();
 
-        // find a better way to pass data through from ui to server
         axios.post('http://localhost:3000/registerUser',
             {
                 salutation: this.state.salutation,
                 first_name: this.state.first_name,
                 last_name: this.state.last_name,
                 email: this.state.email,
-                phone_number: this.state.phone_number,
                 username: this.state.username,
                 password: this.state.password
             }).then((response) => {
@@ -62,13 +60,12 @@ class Register extends Component {
                         showLogin: true,
                         messageFromServer: response.data
                     });
-                    console.log(this.state.showLogin);
                 } else {
                     this.setState({
                         messageFromServer: response.data
                     });
                 }
-        });
+            });
     };
 
     render(){
@@ -83,7 +80,6 @@ class Register extends Component {
                                 <FormControl placeholder="Paige" name="first_name" label="First Name" type="text"  onChange={this.onChange} />
                                 <FormControl placeholder="Niedringhaus" name="last_name" label="Last Name" type="text"  onChange={this.onChange} />
                                 <FormControl placeholder="paige@gmail.com" name="email" label="Email" type="email" onChange={this.onChange} />
-                                <FormControl placeholder="123-456-7890" name="phone_number" label="Phone Number" type="tel" onChange={this.onChange} />
                                 <FormControl placeholder="paigen11" name="username" label="Username" type="text" onChange={this.onChange} />
                                 <FormControl placeholder="*****" name="password" label="Password" type="password" onChange={this.onChange} />
                             <Button type='submit' bsStyle="primary">Register</Button>

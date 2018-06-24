@@ -96,8 +96,6 @@ class UpdateUser extends Component {
                                      onChange={this.onChange}/>
                         <FormControl value={this.state.email} placeholder="paige@gmail.com" name="email" label="Email" type="email"
                                      onChange={this.onChange}/>
-                        <FormControl value={this.state.phone_number} placeholder="123-456-7890" name="phone_number" label="Phone Number" type="tel"
-                                     onChange={this.onChange}/>
                         <FormControl value={this.state.username} placeholder="paigen11" name="username" label="Username" type="text"
                                      onChange={this.onChange}/>
                         <FormControl value={this.state.password} placeholder="*****" name="password" label="Password" type="password"

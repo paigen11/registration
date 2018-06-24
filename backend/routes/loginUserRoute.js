@@ -18,7 +18,7 @@ loginRouter.get('/loginUser', function(req, res){
 
             if(users.length === 0){
                 console.log('user not found');
-                res.status(401).send('No user with that name');
+                res.status(401).json('No user with that name');
             } else {
                 console.log('User found');
                 if(password === users[0].password){
@@ -26,7 +26,7 @@ loginRouter.get('/loginUser', function(req, res){
                     return res.json('Login successful');
                 } else {
                     console.log('password does not match');
-                    return res.status(401).send('Bad password');
+                    return res.status(401).json('Bad password');
                 }
             }
         });

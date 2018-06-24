@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import HeaderBar from './HeaderBar';
-import { Table, Button } from 'react-bootstrap';
+import { Modal, Table, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import ErrorModal from './ErrorModal';
 import axios from 'axios';
 import './Profile.css';
 
@@ -11,10 +10,6 @@ const page = {
     pageTitle: "Profile Screen"
 };
 
-const profileError = {
-    errorHeader: 'Profile Error',
-    errorBody: ''
-};
 
 class Profile extends Component {
     constructor(){
@@ -28,10 +23,14 @@ class Profile extends Component {
                 email: '',
                 phone_number: '',
                 username: '',
-                password: ''
+                password: '',
             },
             isLoading: false,
-            show: false
+            show: false,
+            profileError: {
+                errorHeader: '',
+                errorBody: ''
+            }
         };
     }
 
@@ -42,21 +41,28 @@ class Profile extends Component {
             params: {
                 username: this.props.match.params.username
             }
-        }).then((response) => {
-            // figure out how to get error modal to work if user name is invalid, 404's kind of a problem
-            if(response.data === 'No user with that name exists in the db'){
-                profileError.errorBody = response.data;
-                this.setState({
-                    show: true,
-                    isLoading: false
-                });
-            } else {
+        })
+            .then((response) => {
+            if(response.data){
                 this.setState({
                     user: response.data[0],
                     isLoading: false
                 });
             }
         })
+            .catch((error) => {
+                console.log(error.response);
+                if(error.response.data){
+                    this.setState({
+                        show: true,
+                        isLoading: false,
+                        profileError: {
+                            errorHeader: 'User Profile Error',
+                            errorBody: error.response.data
+                        }
+                    });
+                }
+            })
     }
 
     render(){
@@ -67,7 +73,7 @@ class Profile extends Component {
             return (
                 <div className='profile-page'>
                     <HeaderBar title={page}/>
-                    <ErrorModal show={this.state.show} error={profileError} />
+                    <Button><Link to='/'>Go Home</Link></Button>
                     <Table striped bordered condensed hover>
                         <tbody>
                         <tr>
@@ -87,10 +93,6 @@ class Profile extends Component {
                             <td>{this.state.user.email}</td>
                         </tr>
                         <tr>
-                            <td>Phone Number:</td>
-                            <td>{this.state.user.phone_number}</td>
-                        </tr>
-                        <tr>
                             <td>Username:</td>
                             <td>{this.state.user.username}</td>
                         </tr>
@@ -102,14 +104,23 @@ class Profile extends Component {
                         </tbody>
                     </Table>
                     <Button bsStyle="primary"><Link to={`/updateUser/${this.state.user.username}`}>Update</Link></Button>
-                    {/*<Button type='submit' bsStyle="primary">Delete User</Button>*/}
+                    <Button bsStyle="primary">Delete User</Button>
+                    <Modal show={this.state.show} onHide={this.closeModal} className='error-modal'>
+                        <Modal.Header>
+                            <Modal.Title>{this.state.profileError.errorHeader}</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>{this.state.profileError.errorBody}</Modal.Body>
+                        <Modal.Footer>
+                            <Button><Link to='/login'>Back To Login</Link></Button>
+                        </Modal.Footer>
+                    </Modal>
                 </div>
             )
         } else {
                 return (
                     <div>
                         <p>Looks like you haven't logged in yet, please login in to see your profile page</p>
-                        <Button><Link to='/login'>Login</Link></Button>
+                        <Button><Link to='/login'>Back To Login</Link></Button>
                     </div>
                 );
             }

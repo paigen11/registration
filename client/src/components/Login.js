@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
-import { FormControl, Button } from 'react-bootstrap';
+import { Modal, FormControl, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import HeaderBar from './HeaderBar';
-import ErrorModal from './ErrorModal';
 import axios from 'axios';
 
 const page = {
     pageTitle:'Login Screen'
-};
-
-let loginError = {
-    errorHeader: 'Login Error',
-    errorBody: ''
 };
 
 class Login extends Component {
@@ -23,8 +17,12 @@ class Login extends Component {
             password: '',
             errorFromServer: '',
             show: false,
-            loggedIn: ''
-        }
+            loggedIn: '',
+            loginError: {
+                errorHeader: '',
+                errorBody: ''
+            }
+         }
     }
 
     onChange = (e) => {
@@ -41,20 +39,26 @@ class Login extends Component {
         }
       })
           .then((response) => {
-              if(response.data === 'No user with that name'
-                  || response.data === 'Bad password') {
-                  loginError.errorBody = response.data;
+              if(response.data)
+              this.setState({
+                  loggedIn: 'yes'
+              });
+          })
+          .catch((error) => {
+              if(error.response.data ){
                   this.setState({
                       show: true,
-                  });
-                  // console.log(loginError);
-              } else {
-                  if(response.data === 'Login successful')
-                  this.setState({
-                      loggedIn: 'yes'
+                      loginError: {
+                          errorHeader: 'Login Error',
+                          errorBody: error.response.data
+                      }
                   });
               }
-          })
+            })
+    };
+
+    closeModal = () => {
+        this.setState({ show: false})
     };
 
     render(){
@@ -68,7 +72,15 @@ class Login extends Component {
                         <FormControl placeholder="******" label="Password" name="password" type="password" onChange={this.onChange}/>
                         <Button type="submit" bsStyle="primary">Login</Button>
                     </form>
-                    <ErrorModal show={this.state.show} error={loginError}/>
+                    <Modal show={this.state.show} onHide={this.closeModal} className='error-modal'>
+                        <Modal.Header>
+                            <Modal.Title>{this.state.loginError.errorHeader}</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>{this.state.loginError.errorBody}</Modal.Body>
+                        <Modal.Footer>
+                            <Button onClick={this.closeModal}>Close</Button>
+                        </Modal.Footer>
+                    </Modal>
                 </div>
             )
         } else {

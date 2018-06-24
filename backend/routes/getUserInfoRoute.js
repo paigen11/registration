@@ -14,7 +14,7 @@ userInfoRouter.get(('/getUserInfo'), function(req, res){
 
         if(user.length === 0){
             console.log('User not found');
-            res.status(404).send('No user with that name exists in the db');
+            res.status(404).json('No user with that name exists in the db. Please try logging in again.');
         } else {
             console.log('User info found');
             res.json(user);
