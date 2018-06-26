@@ -25,8 +25,8 @@ app.use(logger('dev'));
 
 
 //db config --set URI from mLab
-// mongoose.connect("mongodb://db:27017/users").then(
-mongoose.connect("mongodb://test:test1234@ds119446.mlab.com:19446/users").then(
+mongoose.connect("mongodb://test:test1234@db:27017/users").then(
+// mongoose.connect("mongodb://test:test1234@ds119446.mlab.com:19446/users").then(
     () => {console.log('Database is connected')},
     err => {console.log(`Cannot connect to DB ${err}`)}
 );

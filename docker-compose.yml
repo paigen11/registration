@@ -15,15 +15,19 @@ services:
       volumes:
         - "./client:/app"
       ports:
-        - "3030:3000"
+        - "3030:3030"
       depends_on:
         - api
 
   db:
     image: mongo
+    ports:
+      - "27017:27017"
     environment:
-#      MONGO_INITDB_ROOT_USERNAME: test
-#      MONGO_INITDB_ROOT_PASSWORD: test1234
+      MONGO_INITDB_ROOT_USERNAME: root_test
+      MONGO_INITDB_ROOT_PASSWORD: root_test1234
+      MONGODB_USER: test
+      MONGODB_PASS: test1234
       MONGO_INITDB_DATABASE: users
 
 
