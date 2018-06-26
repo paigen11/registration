@@ -65,9 +65,9 @@ class Login extends Component {
         if(this.state.loggedIn === '') {
             return (
                 <div className="login-form">
+                    <HeaderBar title={page}/>
                     <Button><Link to='/'>Go Home</Link></Button>
                     <form onSubmit={this.loginUser}>
-                        <HeaderBar title={page}/>
                         <FormControl placeholder="paigen11" label="Username" name="username" type="text" onChange={this.onChange}/>
                         <FormControl placeholder="******" label="Password" name="password" type="password" onChange={this.onChange}/>
                         <Button type="submit" bsStyle="primary">Login</Button>

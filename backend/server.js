@@ -4,7 +4,7 @@ var Cors = require('cors');
 import bodyParser from 'body-parser';
 import logger from 'morgan';
 import mongoose from 'mongoose';
-import router from './routes/routes';
+import deleteRouter from './routes/deleteRoute';
 import registerRouter from './routes/registerUserRoute';
 import loginRouter from './routes/loginUserRoute';
 import userInfoRouter from './routes/getUserInfoRoute';
@@ -31,18 +31,12 @@ mongoose.connect("mongodb://test:test1234@ds119446.mlab.com:19446/users").then(
     err => {console.log(`Cannot connect to DB ${err}`)}
 );
 
-// now we can set the route path & initialize the API
-router.get('/api', (req, res) => {
-    res.json({ message: 'Hello, World!' });
-});
-
 // Use our routers configuration when we call /api
-app.use('/', router);
 app.use('/', loginRouter);
 app.use('/', registerRouter);
 app.use('/', userInfoRouter);
 app.use('/', updateUserRouter);
-
+app.use('/', deleteRouter);
 
 app.listen(API_PORT, () => console.log(`Listening on port ${API_PORT}`));
 

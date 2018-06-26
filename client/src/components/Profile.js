@@ -10,7 +10,6 @@ const page = {
     pageTitle: "Profile Screen"
 };
 
-
 class Profile extends Component {
     constructor(){
         super();
@@ -30,7 +29,8 @@ class Profile extends Component {
             profileError: {
                 errorHeader: '',
                 errorBody: ''
-            }
+            },
+            deleteMessage: ''
         };
     }
 
@@ -65,10 +65,45 @@ class Profile extends Component {
             })
     }
 
-    render(){
+    deleteUser = (e) => {
+        e.preventDefault();
 
-        if(this.state.isLoading) {
+        axios.delete('http://localhost:3000/deleteUser', {
+            params: {
+                username: this.props.match.params.username
+            }
+        })
+            .then((response) => {
+                if(response.data){
+                    this.setState({
+                        deleteMessage: response.data,
+                        isLoading: false,
+                        show: true
+                    })
+                    console.log(this.state);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+
+    render() {
+
+        if (this.state.isLoading) {
             return <p>Loading user profile...</p>
+        } else if (this.state.isLoading === false && this.state.deleteMessage !== '') {
+            return  (
+                    <Modal show={this.state.show} onHide={this.closeModal} className='error-modal'>
+                        <Modal.Header>
+                            <Modal.Title>User Deleted</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>{this.state.deleteMessage}</Modal.Body>
+                        <Modal.Footer>
+                            <Button><Link to='/'>Go Home</Link></Button>
+                        </Modal.Footer>
+                    </Modal>
+                )
         } else if(this.state.isLoading === false) {
             return (
                 <div className='profile-page'>
@@ -104,7 +139,7 @@ class Profile extends Component {
                         </tbody>
                     </Table>
                     <Button bsStyle="primary"><Link to={`/updateUser/${this.state.user.username}`}>Update</Link></Button>
-                    <Button bsStyle="primary">Delete User</Button>
+                    <Button bsStyle="primary" onClick={this.deleteUser}>Delete User</Button>
                     <Modal show={this.state.show} onHide={this.closeModal} className='error-modal'>
                         <Modal.Header>
                             <Modal.Title>{this.state.profileError.errorHeader}</Modal.Title>
