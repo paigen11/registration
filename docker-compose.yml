@@ -20,15 +20,15 @@ services:
         - api
 
   db:
-    image: mongo
+    image: 'bitnami/mongodb:latest'
     ports:
       - "27017:27017"
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root_test
-      MONGO_INITDB_ROOT_PASSWORD: root_test1234
-      MONGODB_USER: test
-      MONGODB_PASS: test1234
-      MONGO_INITDB_DATABASE: users
+      - MONGODB_USERNAME=test
+      - MONGODB_PASSWORD=test1234
+      - MONGODB_DATABASE=users
+    volumes:
+      - ./docker/db/data:/bitnami
 
 
 
